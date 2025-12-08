@@ -5,8 +5,8 @@ import java.util.List;
 
 /*
  * Project: Smart Budget Planner
- * Author: Genesis Coria, Harrison Usigbe, Bryit Sumner, Kayla Sturgeon
- * Date: 12/05/25
+ * Author:  Kayla Sturgeon
+ 
  * This class serves as the central data store for the application, holding income and expenses.
  */
 public class BudgetData {
