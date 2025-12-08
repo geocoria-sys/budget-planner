@@ -6,7 +6,7 @@ import java.util.Scanner;
 /*
  * Project: Smart Budget Planner
  * Author:  Kayla Sturgeon
- * Date: 12/05/25
+
  * This class is the main entry point and console interface for the application.
  */
 public class SmartBudgetPlannerApp {
