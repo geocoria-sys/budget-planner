@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 /*
  * Project: Smart Budget Planner
- * Author: Genesis Coria, Harrison Usigbe, Bryit Sumner, Kayla Sturgeon
+ * Author:  Kayla Sturgeon
  * Date: 12/05/25
  * This class is the main entry point and console interface for the application.
  */
