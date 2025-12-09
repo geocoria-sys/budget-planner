@@ -1,0 +1,69 @@
+// Project: Expense Tracker Application
+// Author: Bryit Sumner
+// Date: 2025-12-05
+// Description: This class calculates the total expenses and the remaining balance based on the user's monthly income and the list of expenses.
+
+package edu.ivytech.expensetracker;
+
+import java.util.List;
+
+public class ExpenseCalculator {
+
+    // Stores the monthly income
+    private double monthlyIncome;
+
+    // Stores the list of individual expense amounts
+    private List<Double> expenseAmounts;
+
+
+    // Default constructor
+    public ExpenseCalculator() {
+    }
+
+
+    // Constructor that sets income and the list of expense amounts
+    public ExpenseCalculator(double monthlyIncome, List<Double> expenseAmounts) {
+        this.monthlyIncome = monthlyIncome;
+        this.expenseAmounts = expenseAmounts;
+    }
+
+
+    // Gets the monthly income
+    public double getMonthlyIncome() {
+        return monthlyIncome;
+    }
+
+
+    // Sets the monthly income
+    public void setMonthlyIncome(double monthlyIncome) {
+        this.monthlyIncome = monthlyIncome;
+    }
+
+
+    // Gets the list of expense amounts
+    public List<Double> getExpenseAmounts() {
+        return expenseAmounts;
+    }
+
+
+    // Sets the list of expense amounts
+    public void setExpenseAmounts(List<Double> expenseAmounts) {
+        this.expenseAmounts = expenseAmounts;
+    }
+
+
+    // Calculates the total of all expenses
+    public double getTotalExpenses() {
+        double total = 0;
+        for (double amount : expenseAmounts) {
+            total += amount;
+        }
+        return total;
+    }
+
+
+    // Calculates the remaining balance after expenses
+    public double getRemainingBalance() {
+        return monthlyIncome - getTotalExpenses();
+    }
+}
