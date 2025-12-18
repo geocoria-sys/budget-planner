@@ -1,74 +1,93 @@
+//Author: KAyla
+
 package GroupProject;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-/*
- * Project: Smart Budget Planner
- * Author:  Kayla Sturgeon
 
- * This class is the main entry point and console interface for the application.
- */
 public class SmartBudgetPlannerApp {
+    private final BudgetData budgetData;
+    private final Scanner scanner;
+    
+    // Feature Instances
+    private final SetIncomeFeature setIncomeFeature;
+    private final AddExpenseFeature addExpenseFeature;
+    private final ViewExpensesFeature viewExpensesFeature;
+    private final ShowSummaryFeature showSummaryFeature;
+    private final ManageExpensesFeature manageExpensesFeature;
 
-    public static void main(String[] args) {
+    public SmartBudgetPlannerApp() {
+        this.budgetData = new BudgetData();
+        this.scanner = new Scanner(System.in);
         
-        // Shared resources
-        Scanner scanner = new Scanner(System.in);
-        BudgetData data = new BudgetData();
+        // Initialize all feature modules
+        this.setIncomeFeature = new SetIncomeFeature();
+        this.addExpenseFeature = new AddExpenseFeature();
+        this.viewExpensesFeature = new ViewExpensesFeature();
+        this.showSummaryFeature = new ShowSummaryFeature();
+        this.manageExpensesFeature = new ManageExpensesFeature();
+    }
+
+    public void start() {
+        // Automatically load existing data from the text file on startup
+        budgetData.loadFromFile("budget.txt");
+        
         boolean running = true;
-
-        // Initialize all feature classes
-        SetIncomeFeature setIncome = new SetIncomeFeature();
-        AddExpenseFeature addExpense = new AddExpenseFeature();
-        ViewExpensesFeature viewExpenses = new ViewExpensesFeature();
-        ShowSummaryFeature showSummary = new ShowSummaryFeature();
-        ExitProgramFeature exitProgram = new ExitProgramFeature();
-
-        System.out.println("*********************************************");
-        System.out.println("* SMART BUDGET PLANNER (FEATURE-AS-CLASS) *");
-        System.out.println("*********************************************");
+        System.out.println("========================================");
+        System.out.println("   Welcome to Smart Budget Planner!     ");
+        System.out.println("========================================");
 
         while (running) {
-            displayMenu();
-            try {
-                int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+            printMenu();
+            
+            // Basic check to ensure scanner is still active
+            if (!scanner.hasNext()) break;
+            
+            String choice = scanner.next();
 
-                switch (choice) {
-                    case 1:
-                        setIncome.execute(scanner, data);
-                        break;
-                    case 2:
-                        addExpense.execute(scanner, data);
-                        break;
-                    case 3:
-                        viewExpenses.execute(data);
-                        break;
-                    case 4:
-                        showSummary.execute(data);
-                        break;
-                    case 5:
-                        running = !exitProgram.execute(); // Stop the loop if true is returned
-                        break;
-                    default:
-                        System.out.println("\n🚫 Invalid option. Please try again.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("\n🚫 Invalid input. Please enter a number (1-5).");
-                scanner.nextLine(); // Clear the invalid input
+            switch (choice) {
+                case "1":
+                    setIncomeFeature.execute(budgetData, scanner);
+                    break;
+                case "2":
+                    addExpenseFeature.execute(budgetData, scanner);
+                    break;
+                case "3":
+                    viewExpensesFeature.execute(budgetData);
+                    break;
+                case "4":
+                    showSummaryFeature.execute(budgetData);
+                    break;
+                case "5":
+                    // The new feature for Edit/Remove
+                    manageExpensesFeature.execute(budgetData, scanner);
+                    break;
+                case "6":
+                    // Save data before closing
+                    budgetData.saveToFile("budget.txt");
+                    System.out.println("\nData saved successfully. Goodbye!");
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid selection. Please enter a number between 1 and 6.");
             }
         }
         scanner.close();
     }
 
-    private static void displayMenu() {
-        System.out.println("\n================ MENU ================");
+    private void printMenu() {
+        System.out.println("\n--- MAIN MENU ---");
         System.out.println("1. Set Monthly Income");
         System.out.println("2. Add New Expense");
-        System.out.println("3. View Expenses List");
-        System.out.println("4. Show Summary (Total Expenses & Balance)");
-        System.out.println("5. Exit Program");
+        System.out.println("3. View List of Expenses");
+        System.out.println("4. Show Financial Summary");
+        System.out.println("5. Edit or Remove Expenses"); // New Improvement
+        System.out.println("6. Save and Exit");
         System.out.print("Select an option: ");
+    }
+
+    public static void main(String[] args) {
+      
+        new SmartBudgetPlannerApp().start();
     }
 }
